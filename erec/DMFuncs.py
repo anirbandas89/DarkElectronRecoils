@@ -7,11 +7,12 @@
 
 #==============================================================================#
 import numpy as np
-from numpy import pi, sqrt, exp, zeros, size, shape
+from numpy import pi, sqrt, exp, zeros, size, shape, trapz
 from numpy.linalg import norm
 from scipy.special import erf
 import LabFuncs
-import Params
+from Params import *
+import AtomicFuncs
 #==============================================================================#
 
 def LightMediator(q):
@@ -56,7 +57,7 @@ def MaxWIMPEnergy(A,v_lab,m_chi,v_esc):
 
 #-------------------- Recoil  rate--------------------------------------------#
 def NuclearRecoilRate_SI(E_r,HaloIntegral,A,sigma_p,m_chi,\
-                            rho_0=Params.SHMpp.LocalDensity):
+                            rho_0=SHMpp.LocalDensity):
     # E_r = Recoil energy in keVr
     # HaloIntegral = g(vmin) or fhat(vmin,q) for non-dir. or dir. experiment
     # A = Nucleus Mass Number
@@ -76,7 +77,7 @@ def NuclearRecoilRate_SI(E_r,HaloIntegral,A,sigma_p,m_chi,\
 
 
 def ElectronRecoilRate(Atom,E_r_vals,m_DM,sigma_e,DMFormFactor,\
-                    vmin_fine,gmin_fine,np=10,nq=10,rho_0=Params.SHMpp.LocalDensity):
+                    vmin_fine,gmin_fine,np=10,nq=10,rho_0=SHMpp.LocalDensity):
 
     E_B_vals = Atom.BindingEnergies/1000.0
     nsh = size(E_B_vals)
@@ -111,7 +112,8 @@ def ElectronRecoilRate(Atom,E_r_vals,m_DM,sigma_e,DMFormFactor,\
                 dsigma = (100*3.0e8)**2*(sigma_e/(8*mu**2.0))*trapz(qfunc,qvals) # cm^2
 
                 # rate
-                dRdlnE[i] += N_T*n_DM*FermiFactor(E_r)*dsigma # kg^-1 s^-1
+                dRdlnE[i] += N_T*n_DM*\
+                        AtomicFuncs.FermiFactor(E_r)*dsigma # kg^-1 s^-1
             else:
                 break
     dRdlnE *= (365*3600*24) # kg^-1 yr^-1

@@ -535,7 +535,7 @@ def gvmin_Isotropic(v_min,day=67.0,v_LSR=233.0,sig=164.75,v_esc=528.0,\
     return gvmin
 
 
-def gvmin_Triaxial(v_min,sig,day=67.0,v_LSR=233.0,v_esc=528.0,\
+def gvmin_Triaxial(v_min,sig=Params.SHMpp.SausageDispersionTensor,day=67.0,v_LSR=233.0,v_esc=528.0,\
                   v_shift=array([0.0,0.0,0.0]),GravFocus=False,v_exponent=-1.0):
     v_min_fine = linspace(0.0001,800.0,300)
     # Same as previous but for the Triaxial Gaussian
