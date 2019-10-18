@@ -52,7 +52,7 @@ def chi_nl_sq(p,l,c_nlk,n_lk,Z_lk):
 # Ionisation form factors
 # Currently only has Helium and Xenon
 
-def f_nl_ion_sq(q,E_r,l,c_nlk,n_lk,Z_lk,np=10):
+def f_nl_ion_sq(q,E_r,l,c_nlk,n_lk,Z_lk,np=20):
     ppr = sqrt(2*m_e*E_r)
     C = (2*l+1)*(ppr**2.0)/((4*pi**3.0)*q)
     #pvals = logspace(log10(abs(ppr-q[0])),log10(ppr+q[-1]),nfine)
@@ -80,7 +80,7 @@ def fion_He(qvals,E_r,sh,np=10):
     }
     return orbitals.get(sh)
 
-def fion_Xe(qvals,E_r,sh,np=10):
+def fion_Xe(qvals,E_r,sh,np=20):
     # s orbitals
     n_s = array([1]+[2]*2+[3]*3+[4]*3+[5]*4)
     Z_s = array([54.9179,47.2500,26.0942,68.1771,16.8296,12.0759,31.9030,8.0145,5.8396,14.7123,3.8555,2.6343,1.8124])

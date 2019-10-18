@@ -77,7 +77,7 @@ def NuclearRecoilRate_SI(E_r,HaloIntegral,A,sigma_p,m_chi,\
 
 
 def ElectronRecoilRate(Atom,E_r_vals,m_DM,sigma_e,DMFormFactor,\
-                    vmin_fine,gmin_fine,np=10,nq=10,rho_0=SHMpp.LocalDensity):
+                    vmin_fine,gmin_fine,np=20,nq=20,rho_0=SHMpp.LocalDensity):
 
     E_B_vals = Atom.BindingEnergies/1000.0
     nsh = size(E_B_vals)
