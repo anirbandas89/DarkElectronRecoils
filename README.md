@@ -1,8 +1,9 @@
 # Electron recoils in dark matter detectors (work in progress)
 
-[![DOI](https://zenodo.org/badge/156694427.svg)](https://zenodo.org/badge/latestdoi/156694427)
-[![arXiv](https://img.shields.io/badge/arXiv-1909.04684-B31B1B.svg)](https://arxiv.org/abs/1909.04684)
+[//]:[![DOI](https://zenodo.org/badge/156694427.svg)](https://zenodo.org/badge/latestdoi/156694427)
+[//]:[![arXiv](https://img.shields.io/badge/arXiv-1909.04684-B31B1B.svg)](https://arxiv.org/abs/1909.04684)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 
 Please contact me at ciaran.aj.ohare@gmail.com if you want to complain about why something doesn't work.
 
@@ -11,7 +12,7 @@ Please contact me at ciaran.aj.ohare@gmail.com if you want to complain about why
 The code, plots, datas, etc. are sorted as follows:
 
 * `data/` - various bits of required data
-* `code/` - main python functions
+* `erec/` - main body of the code
 * `notebooks/` - Ipython notebooks for plotting and going through the code
 * `plots/` - plots get put here
 
