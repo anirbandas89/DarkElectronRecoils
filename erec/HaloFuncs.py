@@ -83,7 +83,9 @@ def Nesc_Triaxial(sigr,sigphi,beta,v_esc):
 
 
 #======================= Velocity distributions ===============================#
-def VelocityDist_Isotropic(v,day,v_LSR=233.0,sig=164.75,v_esc=528.0,\
+def VelocityDist_Isotropic(v,day=67.0,v_LSR=Params.SHMpp.RotationSpeed,\
+                            sig=Params.SHMpp.Dispersion,\
+                            v_esc=Params.SHMpp.EscapeSpeed,\
                         v_shift=array([0.0,0.0,0.0]),GravFocus=False,\
                         EscapeSpeed=True):
     ## Isotropic velocity distribution
@@ -115,8 +117,12 @@ def VelocityDist_Isotropic(v,day,v_LSR=233.0,sig=164.75,v_esc=528.0,\
     return fv3
 
 
-def VelocityDist_Triaxial(v,day,sig3,v_LSR=233.0,v_esc=528.0,\
-                        v_shift=array([0.0,0.0,0.0]),GravFocus=False):
+def VelocityDist_Triaxial(v,day=67.0,sig=Params.SHMpp.SausageDispersionTensor,\
+                        v_LSR=Params.SHMpp.RotationSpeed,\
+                        v_esc=Params.SHMpp.EscapeSpeed,\
+                        v_shift=array([0.0,0.0,0.0]),GravFocus=False,\
+                        GalFrame=False,\
+                      EscapeSpeed=True,SmoothCutoff=False):
     ## Triaxial velocity distribution
     # v = velocities (in galactic cylindrical coordinates)
     # v_LSR = Local standard of rest
@@ -128,9 +134,9 @@ def VelocityDist_Triaxial(v,day,sig3,v_LSR=233.0,v_esc=528.0,\
     v_lab = LabFuncs.LabVelocitySimple(day,v_LSR=v_LSR)-v_shift
 
     # Dispersions
-    sigr = sig3[0]
-    sigphi = sig3[1]
-    sigz = sig3[2]
+    sigr = sig[0]
+    sigphi = sig[1]
+    sigz = sig[2]
     beta = 1.0-(sigphi**2.0+sigz**2.0)/(2*sigr**2.0)
 
     # Normalisation
@@ -159,7 +165,9 @@ def VelocityDist_Triaxial(v,day,sig3,v_LSR=233.0,v_esc=528.0,\
 
 
 #====================== Speed distributions====================================#
-def SpeedDist_Isotropic(v,day,v_LSR=233.0,sig=164.75,v_esc=528.0,\
+def SpeedDist_Isotropic(v,day=67.0,v_LSR=Params.SHMpp.RotationSpeed,\
+                        sig=Params.SHMpp.Dispersion,\
+                        v_esc=Params.SHMpp.EscapeSpeed,\
                         v_shift=array([0.0,0.0,0.0]),GravFocus=False,\
                         EscapeSpeed=True):
     ## Isotropic speed distribution
@@ -217,7 +225,9 @@ def SpeedDist_Isotropic(v,day,v_LSR=233.0,sig=164.75,v_esc=528.0,\
 
 
 
-def SpeedDist_Triaxial(v,day,sig3,v_LSR=233.0,v_esc=528.0,\
+def SpeedDist_Triaxial(v,day=67.0,sig=Params.SHMpp.SausageDispersionTensor,\
+                        v_LSR=Params.SHMpp.RotationSpeed,\
+                        v_esc=Params.SHMpp.EscapeSpeed,\
                         v_shift=array([0.0,0.0,0.0]),GravFocus=False,\
                         GalFrame=False,\
                       EscapeSpeed=True,SmoothCutoff=False):
@@ -233,9 +243,9 @@ def SpeedDist_Triaxial(v,day,sig3,v_LSR=233.0,v_esc=528.0,\
     # SmoothCutoff = whether to have a sharp or smooth escape speed cutoff
 
     # Dispersions
-    sigr = sig3[0]
-    sigphi = sig3[1]
-    sigz = sig3[2]
+    sigr = sig[0]
+    sigphi = sig[1]
+    sigz = sig[2]
 
     # Normalisation
     beta = 1.0-(sigphi**2.0+sigz**2.0)/(2*sigr**2.0)

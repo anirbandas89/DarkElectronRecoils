@@ -141,7 +141,6 @@ def dRdE_nu(E_r,t,sol,E_nu,Flux,Atom):
     dRdE = fMod*dRdE*(365.0*3600.0*24.0*1000.0)
     return dRdE
 
-
 def dRdEdO_isonu(E,E_nu,Flux,Atom):
     E_r = sqrt(E[:,0]**2 + E[:,1]**2 + E[:,2]**2) # Recoil energy
     dR = dRdE_nu(E_r,0.0,False,E_nu,Flux,Atom)/(4*pi)
