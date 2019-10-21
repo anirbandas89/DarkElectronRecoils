@@ -1,0 +1,2 @@
+# Ionisation form factors
+first row contains $n$ values of $E_R$ in keV. Second row contains $n$ values of $q$ in keV. The remaining values are $n$ x $n$ arrays of $f_{\rm ion}$ where the rows correspond to the values of $E_R$ and the columns correspond to the values of $q$. There are as many $n$ x $n$ arrays as there are orbitals included in the $nl$ sum, e.g. 3 for xenon (5p, 5s, 4d) and 1 for helium (1s).
