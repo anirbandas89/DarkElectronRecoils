@@ -7,7 +7,7 @@
 
 #==============================================================================#
 import numpy as np
-from numpy import pi, sqrt, exp, zeros, size, shape, trapz
+from numpy import pi, sqrt, exp, zeros, size, shape, trapz, arange, argmin, squeeze, ndim, reshape
 from numpy.linalg import norm
 from scipy.special import erf
 import LabFuncs
@@ -79,10 +79,12 @@ def NuclearRecoilRate_SI(E_r,HaloIntegral,A,sigma_p,m_chi,\
 
 
 def ElectronRecoilRate(Atom,E_r_vals,m_DM,sigma_e,DMFormFactor,\
-                    vmin_fine,gmin_fine,np=20,nq=20,rho_0=SHMpp.LocalDensity):
+                    vmin_fine,gmin_fine,rho_0=SHMpp.LocalDensity,nq=20):
 
     E_B_vals = Atom.BindingEnergies/1000.0
     nsh = size(E_B_vals)
+
+    Efine,qfine,fion_fine = Atom.IonisationFormFactor()
 
     # Constants
     m_DM_keV = m_DM*1000 # keV
@@ -94,29 +96,38 @@ def ElectronRecoilRate(Atom,E_r_vals,m_DM,sigma_e,DMFormFactor,\
 
     vmax = ((850.0)*1000)/3.0e8 # natural units
 
-    dRdlnE = zeros(shape=ne)
-    for sh in range(0,nsh): # over orbitals
-        E_B = E_B_vals[sh]
-        for i in range(0,ne): # over energies
-            E_r = E_r_vals[i]
-            if E_r<(0.5*m_DM_keV*vmax**2.0-E_B):
+    if ndim(gmin_fine)>1:
+        nt = shape(gmin_fine)[0]
+    else:
+        nt = 1
+        gmin_fine = reshape(gmin_fine,(1,size(gmin_fine)))
 
-                # Form factor
-                qmax = m_DM_keV*vmax*(1.0+sqrt(1-2*(E_r+E_B)/(m_DM_keV*vmax**2.0)))
-                qmin = m_DM_keV*vmax*(1.0-sqrt(1-2*(E_r+E_B)/(m_DM_keV*vmax**2.0)))
-                qvals = logspace(log10(qmin),log10(qmax),nq)
-                fion = Atom.IonisationFormFactor(qvals,E_r,sh,np=np)
+    dRdlnE = zeros(shape=(nt,ne))
 
-                # interpolate at required vmin and calculate cross section
-                vmin_vals = vmin_ER(E_B,E_r,qvals,m_DM)
-                gmin = interp(vmin_vals,vmin_fine,gmin_fine)/(1000*100)
-                qfunc = qvals*fion*gmin*DMFormFactor(qvals)
-                dsigma = (100*3.0e8)**2*(sigma_e/(8*mu**2.0))*trapz(qfunc,qvals) # cm^2
+    for it in range(0,nt):
+        for sh in range(0,nsh): # over orbitals
+            E_B = E_B_vals[sh]
+            Emax = 0.5*m_DM_keV*vmax**2.0-E_B
+            if Emax>E_r_vals[0]:
+                imax = arange(0,ne)[E_r_vals<Emax][-1]
+                for i in range(0,imax+1): # over energies
+                    E_r = E_r_vals[i]
+                    if E_r<(0.5*m_DM_keV*vmax**2.0-E_B):
 
-                # rate
-                dRdlnE[i] += N_T*n_DM*\
-                        AtomicFuncs.FermiFactor(E_r)*dsigma # kg^-1 s^-1
-            else:
-                break
+                        # Form factor
+                        qmax = m_DM_keV*vmax*(1.0+sqrt(1-2*(E_r+E_B)/(m_DM_keV*vmax**2.0)))
+                        qmin = m_DM_keV*vmax*(1.0-sqrt(1-2*(E_r+E_B)/(m_DM_keV*vmax**2.0)))
+                        qvals = logspace(log10(qmin),log10(qmax),nq)
+                        fion = interp(qvals,qfine,fion_fine[argmin(abs(Efine-E_r)),:,sh])
+
+                        # interpolate at required vmin and calculate cross section
+                        vmin_vals = vmin_ER(E_B,E_r,qvals,m_DM)
+                        gmin = interp(vmin_vals,vmin_fine,gmin_fine[it,:])/(1000*100)
+                        qfunc = qvals*fion*gmin*DMFormFactor(qvals)
+                        dsigma = (100*3.0e8)**2*(sigma_e/(8*mu**2.0))*trapz(qfunc,qvals) # cm^2
+
+                        # rate
+                        dRdlnE[it,i] += N_T*n_DM*\
+                                AtomicFuncs.FermiFactor(E_r)*dsigma # kg^-1 s^-1
     dRdlnE *= (365*3600*24) # kg^-1 yr^-1
-    return dRdlnE
+    return squeeze(dRdlnE)

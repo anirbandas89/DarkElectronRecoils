@@ -3,8 +3,8 @@ from HaloFuncs import *
 from Params import *
 
 # v_mins
-n = int(input("Number of velocities between 0.0 and 750.0 km/s : "))
-v_min = linspace(0.01,750.0,n)
+n = int(input("Number of velocities between 0.0 and 800.0 km/s : "))
+v_min = linspace(0.01,800.0,n)
 
 # Times
 ndays = int(input("Number of times between Jan 1 and Dec 31 km/s : "))
