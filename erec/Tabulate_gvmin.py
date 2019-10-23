@@ -22,7 +22,7 @@ gmin_S1_gf = zeros(shape=(ndays,n))
 gmin_S2 = zeros(shape=(ndays,n))
 gmin_S2_gf = zeros(shape=(ndays,n))
 for i in range(0,ndays):
-    gmin_Iso[i,:] = gvmin_Isotropic(v_min)
+    gmin_Iso[i,:] = gvmin_Isotropic(v_min,day=days[i])
     gmin_Iso_gf[i,:] = gvmin_Triaxial(v_min,day=days[i],sig=sig_iso,GravFocus=True)
 
     gmin_Saus[i,:] = gvmin_Triaxial(v_min,day=days[i])

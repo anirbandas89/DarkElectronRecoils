@@ -22,17 +22,17 @@ fv_S1_gf = zeros(shape=(ndays,n))
 fv_S2 = zeros(shape=(ndays,n))
 fv_S2_gf = zeros(shape=(ndays,n))
 for i in range(0,ndays):
-    fv_Iso[i,:] = SpeedDist_Isotropic(v)
-    fv_Iso_gf[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=sig_iso,GravFocus=True)
-
-    fv_Saus[i,:] = SpeedDist_Triaxial(v,day=days[i])
-    fv_Saus_gf[i,:] = SpeedDist_Triaxial(v,day=days[i],GravFocus=True)
-
-    fv_S1[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=S1stream.Dispersion,v_shift=S1stream.Velocity)
-    fv_S1_gf[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=S1stream.Dispersion,v_shift=S1stream.Velocity,GravFocus=True)
-
-    fv_S2[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=S2stream.Dispersion,v_shift=S2stream.Velocity)
-    fv_S2_gf[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=S2stream.Dispersion,v_shift=S2stream.Velocity,GravFocus=True)
+    fv_Iso[i,:] = SpeedDist_Isotropic(v,day=days[i])
+    # fv_Iso_gf[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=sig_iso,GravFocus=True)
+    #
+    # fv_Saus[i,:] = SpeedDist_Triaxial(v,day=days[i])
+    # fv_Saus_gf[i,:] = SpeedDist_Triaxial(v,day=days[i],GravFocus=True)
+    #
+    # fv_S1[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=S1stream.Dispersion,v_shift=S1stream.Velocity)
+    # fv_S1_gf[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=S1stream.Dispersion,v_shift=S1stream.Velocity,GravFocus=True)
+    #
+    # fv_S2[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=S2stream.Dispersion,v_shift=S2stream.Velocity)
+    # fv_S2_gf[i,:] = SpeedDist_Triaxial(v,day=days[i],sig=S2stream.Dispersion,v_shift=S2stream.Velocity,GravFocus=True)
 
     print('day = ',i+1,'of',ndays,sum(fv_S1[i,:]),sum(fv_S1_gf[i,:]))
 

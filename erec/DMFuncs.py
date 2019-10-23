@@ -27,7 +27,7 @@ def HeavyMediator(q):
 
 #---------------------------------- v_min -------------------------------------#
 def vmin_ER(E_b,E_r,q,m_DM):
-    # E_r = binding energy in keV
+    # E_b = binding energy in keV
     # E_r = recoil energy in keV
     # q = momentum transfer in keV
     # m_chi = DM mass in MeV
