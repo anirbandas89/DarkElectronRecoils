@@ -28,7 +28,7 @@ c_3d = array([0.220185,0.603140,0.194682,-0.014369,0.049865,-0.000300,0.000418,-
 
 n = int(input("Number of values"))
 
-E_r_vals = logspace(-2.0,4.0,n)/1000.0 # keV
+E_r_vals = logspace(-1.0,3.0,n)/1000.0 # keV
 q_vals = logspace(0.0,4.0,n)
 
 np = 50
