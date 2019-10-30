@@ -17,23 +17,24 @@ from scipy.special import erf, erfi
 m_p = 0.9315*1e6
 m_p_keV = 0.9315*1e6
 m_e = 511.0 # keV
-c_cm = 3.0e8*100.0 # speed of light in cm/s
-c_km = 3.0e8/1000.0 # speed of light in cm/s
+c_m = 2.99792458e8 # speed of light in m/s
+c_cm = c_m*100.0 # speed of light in cm/s
+c_km = c_m/1000.0 # speed of light in km/s
 GeV_2_kg = 1.0e6*1.783e-33 # convert GeV to kg
-alph = 1.0/137.0
-m_p_kg = 1.67e-27 # kg
-a0 = 0.268173 # keV^-1
+alph = 1.0/137.0 # fine structure constant
+m_p_kg = 1.660538782e-27 # amu in kg
+a0 = 0.268173 # Bohr radius keV^-1
 N_A = 6.02214e23 # Avocado's constant
-sinTheta_Wsq = 0.2387e0 # sin(Theta_W) weak mixing angle
+sinTheta_Wsq = 0.2387e0 # sin^2(Theta_W) weinberg angle
 G_F_GeV = 1.16637e-5 # GeV**-2 ! Fermi constan in GeV
 Jan1 = 2458849.5 # January 1st 2020
-
+seconds2year = 365.25*3600*24
 
 
 #==============================================================================#
 # Set Nucleus params
 class Atom:
-    def __init__(self,xi,N,Z,J,Sp,Sn,fion,E_B_vals):
+    def __init__(self,xi,N,Z,J,Sp,Sn,fion,E_B_vals,E_gap, eps, Vfactor):
         self.IsotopicFraction = xi
         self.NumberOfNeutrons = N
         self.NumberOfProtons = Z
@@ -41,9 +42,13 @@ class Atom:
         self.NuclearSpin = J
         self.ExpProtonSpin = Sp
         self.ExpNeutronSpin = Sp
-        self.SDEnhancement = (4.0/3.0)*((J+1.0)/J)*(Sp-Sn)**2.0
+        if J>0.0:
+            self.SDEnhancement = (4.0/3.0)*((J+1.0)/J)*(Sp-Sn)**2.0
         self.IonisationFormFactor = fion
         self.BindingEnergies = E_B_vals
+        self.BandGapEnergy = E_gap
+        self.ElectronHoleMeanEnergy = eps
+        self.VCellFactor = Vfactor
 #==============================================================================#
 
 

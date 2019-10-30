@@ -79,6 +79,26 @@ def fion_He():
     fion_fine[:,:,0] = 10.0**dat[2:(n+2),:]
     return Efine,qfine,fion_fine
 
+def fion_Ge():
+    dat = loadtxt('../data/fion/fion_Ge.txt')
+    Efine = dat[0,:]
+    qfine = dat[1,:]
+    n = size(qfine)
+
+    fion_fine = zeros(shape=(n,n,1))
+    fion_fine[:,:,0] = 10.0**dat[2:(n+2),:]
+    return Efine,qfine,fion_fine
+
+def fion_Si():
+    dat = loadtxt('../data/fion/fion_Si.txt')
+    Efine = dat[0,:]
+    qfine = dat[1,:]
+    n = size(qfine)
+
+    fion_fine = zeros(shape=(n,n,1))
+    fion_fine[:,:,0] = 10.0**dat[2:(n+2),:]
+    return Efine,qfine,fion_fine
+
 def fion_Xe():
     dat = loadtxt('../data/fion/fion_Xe.txt')
     Efine = dat[0,:]
@@ -95,10 +115,13 @@ def fion_Xe():
 
 #==============================================================================#
 # Some targets:
-#           (xi,      N,   Z,    J,     Sp,      Sn,   fion, E_B)
-He4 =   Atom(1.0,     2,   2, 0.01,  0.000,   0.000,fion_He, array([24.982257]))
-Xe131 = Atom(0.212,  77,  54,  1.5, -0.038,   0.242,fion_Xe, array([12.4,25.7,75.6]))
-Xe129 = Atom(0.265,  75,  54,  0.5,  0.046,   0.293,fion_Xe, array([12.4,25.7,75.6]))
+#           (xi,      N,   Z,    J,     Sp,      Sn,   fion, E_B, E_gap, Ehole_mean, Vfactor)
+He4 =   Atom(1.0,     2,   2,   0.01,  0.000,  0.000,  fion_He, array([24.982257]), 0.0, 0.0, 0.0)
+Xe131 = Atom(0.212,   77,  54,  1.5,  -0.038,  0.242,  fion_Xe, array([12.4,25.7,75.6]), 0.0, 0.0, 0.0)
+Xe129 = Atom(0.265,   75,  54,  0.5,   0.046,  0.293,  fion_Xe, array([12.4,25.7,75.6]), 0.0, 0.0, 0.0)
+Ge =  Atom(1.0,    40.64,  32,  0.0,   0.00,   0.000,  fion_Ge, array([0.0]), 0.67, 2.9, 1.8)
+Si =  Atom(1.0,  14.0855,  14,  0.0,   0.00,   0.000,  fion_Si, array([0.0]), 1.11, 3.6, 2.0)
+
 # F19 =   Atom(1.0,    10,   9,  0.5,  0.421,   0.045,fion_F,array([]))
 #==============================================================================#
 

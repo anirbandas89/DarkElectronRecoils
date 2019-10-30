@@ -53,6 +53,14 @@ cyg = array([[ 62.10963941,   4.57150891],
 
 #==============================================================================#
 
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+def cbar(mappable):
+    ax = mappable.axes
+    fig = ax.figure
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.2)
+    return fig.colorbar(mappable, cax=cax)
 
 #==============================================================================#
 def MySquarePlot(xlab='',ylab='',\

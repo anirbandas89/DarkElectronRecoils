@@ -39,11 +39,10 @@ def vmin_NR(E_r,A,m_chi,delta=0):
     # A = nucleus mass number
     # m_chi = Wimp mass in GeV
     # delta = for inelastic scattering
-    m_N = m_p*A # mass of nucleus
     mu_p = 1.0e6*m_chi*m_p/(1.0e6*m_chi + m_p) # reduced proton mass
-    m_N_keV = A*0.9315*1.0e6 # nucleus mass in keV
+    m_N_keV = A*m_p # nucleus mass in keV
     mu_N_keV = 1.0e6*m_chi*m_N_keV/(1.0e6*m_chi + m_N_keV) # reduced nucleus mass
-    v_min = sqrt(1.0/(2*m_N_keV*E_r))*(m_N_keV*E_r/mu_N_keV + delta)*3.0e8/1000.0
+    v_min = sqrt(1.0/(2*m_N_keV*E_r))*(m_N_keV*E_r/mu_N_keV + delta)*c_km
     return v_min
 
 #---------------------------------- E_max -------------------------------------#
@@ -54,7 +53,7 @@ def MaxWIMPEnergy(A,v_lab,m_chi,v_esc):
     # v_esc = Escape speed in km/s
     m_N = m_p*A
     mu_N = 1.0e6*m_N*m_chi/(1.0e6*m_chi+m_N)
-    E_max_lim = 2.0*mu_N*mu_N*2.0*((v_esc+sqrt(sum(v_lab**2.0)))*1000.0/3.0e8)**2.0/m_N
+    E_max_lim = 2.0*mu_N*mu_N*2.0*((v_esc+sqrt(sum(v_lab**2.0)))/c_km)**2.0/m_N
     return E_max_lim
 
 #-------------------- Recoil  rate--------------------------------------------#
@@ -74,7 +73,7 @@ def NuclearRecoilRate_SI(E_r,HaloIntegral,A,sigma_p,m_chi,\
 
     # Compute rate = (Rate amplitude * HaloIntegral * form factor)
     dR = R0*HaloIntegral*FF
-    dR = dR*3600*24*365*1000.0 # convert to units of 1/(keVr ton year)
+    dR = dR*seconds2year*1000.0 # convert to units of 1/(keVr ton year)
     return dR
 
 
@@ -124,10 +123,10 @@ def ElectronRecoilRate(Atom,E_r_vals,m_DM,sigma_e,DMFormFactor,\
                         vmin_vals = vmin_ER(E_B,E_r,qvals,m_DM)
                         gmin = interp(vmin_vals,vmin_fine,gmin_fine[it,:])/(1000*100)
                         qfunc = qvals*fion*gmin*DMFormFactor(qvals)
-                        dsigma = (100*3.0e8)**2*(sigma_e/(8*mu**2.0))*trapz(qfunc,qvals) # cm^2
+                        dsigma = (100*3.0e8)**2*(sigma_e/(8*mu**2.0))*trapz(qfunc,qvals) # cm^3
 
                         # rate
                         dRdlnE[it,i] += N_T*n_DM*\
                                 AtomicFuncs.FermiFactor(E_r)*dsigma # kg^-1 s^-1
-    dRdlnE *= (365*3600*24) # kg^-1 yr^-1
+    dRdlnE *= seconds2year # kg^-1 yr^-1
     return squeeze(dRdlnE)
